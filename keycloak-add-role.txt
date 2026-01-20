@@ -17,25 +17,33 @@
 3. Создать клиента. Clients --> Create Client
 	-1 General settings:
 		Client type: OpenID Connect
-		ClientID: {hotel_registration_cl}
+		ClientID: {hotel_registration_admin}
 		Name: {Spring Boot Admin Client}
 		Always display in UI: Off
 		--> next
 	-2 Capability config:
-        Client authentication: OFF
+        Client authentication: ON
         Authorization: OFF
         Authentication flow: выбрать
             Standard flow: ON
+            Service accounts roles: ON
 		--> next
-	-3 Login settings: - там, где сайт
-	    Valid redirect URIs: {http://localhost:8080/login/oauth2/code/keycloak}
-        Valid post logout redirect URIs: {http://localhost:8080/*}
-        Web origins: {http://localhost:8080}
+	-3 Login settings:
 		--> Save
 
-4. Скопировать секрет Clients → spring-app → Credentials (M8AbSK8gkYGrTKsKKc4n2JUlTENnjLXV)
+4. Добавить роль для возможности добавления ролей: Clients → spring-app → Service account roles
+    - клацнуть по "Assign role"
+    - переключиться с "Filter by realm-role" на "Filter by clients"
+    - выбрать роли:
+        - manage-users (экран 2 в списке)
+        - view-users (экран 3 в списке)
+        - view-realm (для назначения ролей)
+        - query-users (желательно)
+      --> Assign
 
-5. Создать роль - слева вкладка "Realm roles" --> "Create role":
+5. Скопировать секрет Clients → spring-app → Credentials (UIyn2JXR0J5x7nrQwTACGx11ICLQuZHr)
+
+6. Создать роль - слева вкладка "Realm roles" --> "Create role":
    	"Role name": {hotel_data_reader}
    	"Description": {Role for remote Services for reading data of hotel-provider Service}
        	--> Save
@@ -49,16 +57,18 @@
     "Description": {Role for remote services for call hotel_registration}
         --> Save
 
+7. Добавить роль добавляемую при регистрации: Realm settings --> User registration
+    - Assign role
 
-6. Для получения Bearer-токена нужно
+8. Для получения Bearer-токена нужно
 curl -X POST \
-  http://localhost:18080/realms/hotel-provider/protocol/openid-connect/token \
+  http://localhost:18080/realms/hotel-realm/protocol/openid-connect/token \
   -d grant_type=client_credentials \
   -d client_id=spring-app \
-  -d client_secret=8UwMrcdNc8o9IsrZu51dDDXwJJTxy6KD
+  -d client_secret=UIyn2JXR0J5x7nrQwTACGx11ICLQuZHr
 
-7. Скопировать конфигурацию себе на комп (потом переместить в папку проекта ./config/keycloak)
-    7.1 Создать файл-конфиг внутри контейнера (keycloak-sandbox - это имя контейнера):
+9. Скопировать конфигурацию себе на комп (потом переместить в папку проекта ./config/keycloak)
+    9.1 Создать файл-конфиг внутри контейнера (keycloak-sandbox - это имя контейнера):
         docker exec keycloak-sandbox /opt/keycloak/bin/kc.sh export --dir /opt/keycloak/data/export --realm sandbox --users realm_file   - работает
-    7.2 скопировать на комп (в папку юзера):
-        docker cp keycloak-sandbox:/opt/keycloak/data/export/sandbox-realm.json ./sandbox-realm.json
+    9.2 скопировать на комп (в папку юзера):
+        docker cp keycloak-sandbox:/opt/keycloak/data/export/hotel-realm.json ./hotel-realm.json

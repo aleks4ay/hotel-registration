@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" >
+<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Главная</title>
@@ -15,8 +15,13 @@
         <a th:href="@{/profile}">Профиль</a>
     </div>
 
+    <br/>
     <form th:action="@{/logout}" method="post">
         <button type="submit">Выйти</button>
     </form>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <a href="/admin">Админка</a>
+    </div>
 </body>
 </html>

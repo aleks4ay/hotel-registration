@@ -6,6 +6,7 @@
 
 <p>Логин: <span th:text="${username}"></span></p>
 <p>Email: <span th:text="${email}"></span></p>
+<p>userId: <span th:text="${userId}"></span></p>
 <p>Роли:</p>
 <ul>
     <li th:each="r : ${roles}" th:text="${r.authority}"></li>
