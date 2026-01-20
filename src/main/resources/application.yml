@@ -11,10 +11,8 @@ spring:
         registration:
           keycloak:
             client-id: hotel_registration_cl
-            client-secret: M8AbSK8gkYGrTKsKKc4n2JUlTENnjLXV
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: openid
+            scope: openid,profile,email
         provider:
           keycloak:
             issuer-uri: http://localhost:18080/realms/hotel-realm

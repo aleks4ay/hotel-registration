@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" >
-<head>
-    <meta charset="UTF-8">
-    <title>Профиль</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <h2>Профиль</h2>
-    <p>Пользователь: <span th:text="${username}"></span></p>
 
-    <p>Роли:</p>
-    <ul>
-        <li th:each="r : ${roles}" th:text="${r.authority}"></li>
-    </ul>
+<h2>Профиль</h2>
 
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
+<p>Логин: <span th:text="${username}"></span></p>
+<p>Email: <span th:text="${email}"></span></p>
+<p>Роли:</p>
+<ul>
+    <li th:each="r : ${roles}" th:text="${r.authority}"></li>
+</ul>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
 
 </body>
 </html>

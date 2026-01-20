@@ -5,12 +5,18 @@
     <title>Главная</title>
 </head>
 <body>
-    <h2>Главная</h2>
-    <a th:href="@{/login}">Войти</a>
-    <a th:href="@{/register}">Регистрация</a>
+    <h2>Главная страница</h2>
+
+    <div>
+        <a th:href="@{/oauth2/authorization/keycloak}">Войти / Зарегистрироваться</a>
+    </div>
+
+    <div>
+        <a th:href="@{/profile}">Профиль</a>
+    </div>
 
     <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
+        <button type="submit">Выйти</button>
     </form>
 </body>
 </html>

@@ -16,27 +16,29 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final ClientRegistrationRepository clientRegistrationRepository;
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, ClientRegistrationRepository clientRegistrationRepository) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/register").permitAll()
+                        .requestMatchers("/", "/css/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> logout
-                        .logoutSuccessHandler(oidcLogoutSuccessHandler())
+                        .logoutSuccessHandler(
+                                oidcLogoutSuccessHandler(clientRegistrationRepository)
+                        )
                 );
 
         return http.build();
     }
 
-    @Bean
-    LogoutSuccessHandler oidcLogoutSuccessHandler() {
-        var handler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
+    private LogoutSuccessHandler oidcLogoutSuccessHandler(ClientRegistrationRepository clientRegistrationRepository) {
+
+        OidcClientInitiatedLogoutSuccessHandler handler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
+
         handler.setPostLogoutRedirectUri("{baseUrl}/");
         return handler;
     }
+
 }

@@ -1,6 +1,7 @@
 package com.aleks4ay.hotel.registration.income;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,16 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    @SuppressWarnings("unused")
-    public String home() {
+    public String index() {
         return "index";
     }
 
     @GetMapping("/profile")
-    @SuppressWarnings("unused")
-    public String profile(Model model, Authentication auth) {
-        model.addAttribute("username", auth.getName());
-        model.addAttribute("roles", auth.getAuthorities());
+    public String profile(Model model, @AuthenticationPrincipal OidcUser user) {
+
+        model.addAttribute("username", user.getPreferredUsername());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("roles", user.getAuthorities());
+
         return "profile";
     }
 }

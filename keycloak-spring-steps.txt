@@ -22,15 +22,15 @@
 		Always display in UI: Off
 		--> next
 	-2 Capability config:
-        Client authentication: ON (client становится confidential)
+        Client authentication: OFF
         Authorization: OFF
         Authentication flow: выбрать
             Standard flow: ON
-            Direct access grants OFF (пользователи не логинятся через этот client)
 		--> next
-	-3 Login settings:
-	    Valid redirect URIs: {http://localhost:8080/login/oauth2/code/*} - там, где сайт
-        Web origins: {http://localhost:8080/*} - там, где сайт
+	-3 Login settings: - там, где сайт
+	    Valid redirect URIs: {http://localhost:8080/login/oauth2/code/keycloak}
+        Valid post logout redirect URIs: {http://localhost:8080/*}
+        Web origins: {http://localhost:8080}
 		--> Save
 
 4. Скопировать секрет Clients → spring-app → Credentials (M8AbSK8gkYGrTKsKKc4n2JUlTENnjLXV)
@@ -49,19 +49,6 @@
     "Description": {Role for remote services for call hotel_registration}
         --> Save
 
-
-
-
-
-5. Добавить роль Clients → spring-app → Service account roles
-    - клацнуть по "Assign role"
-    - переключиться с "Filter by realm-role" на "Filter by clients"
-    - выбрать роли:
-        - manage-users (экран 2 в списке)
-        - view-users (экран 3 в списке)
-        - view-realm (для назначения ролей)
-        - query-users (желательно)
-      --> Assign
 
 6. Для получения Bearer-токена нужно
 curl -X POST \
