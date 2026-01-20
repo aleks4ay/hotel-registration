@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h2>Регистрация</h2>
+    <a href="http://localhost:18080/realms/hotel-realm/protocol/openid-connect/registrations?client_id=hotel_registration_cl&response_type=code&scope=openid&redirect_uri=http://localhost:8080/login/oauth2/code/keycloak">Зарегистрироваться через Keycloak</a>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>
