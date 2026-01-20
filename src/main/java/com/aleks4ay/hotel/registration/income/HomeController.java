@@ -16,10 +16,11 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profile(Model model, @AuthenticationPrincipal OidcUser user) {
-
+        String userId = user.getSubject();
         model.addAttribute("username", user.getPreferredUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("roles", user.getAuthorities());
+        model.addAttribute("userId", userId);
 
         return "profile";
     }
