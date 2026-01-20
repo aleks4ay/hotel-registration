@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    cache: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: hotel_registration_cl
+            authorization-grant-type: authorization_code
+            scope: openid,profile,email
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:18080/realms/hotel-realm

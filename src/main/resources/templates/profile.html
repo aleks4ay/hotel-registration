@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2>Профиль</h2>
+
+<p>Логин: <span th:text="${username}"></span></p>
+<p>Email: <span th:text="${email}"></span></p>
+<p>Роли:</p>
+<ul>
+    <li th:each="r : ${roles}" th:text="${r.authority}"></li>
+</ul>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
+
+</body>
+</html>
