@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head><title>Профиль</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+</head>
 <body>
 
 <h2>Профиль</h2>
@@ -12,6 +15,7 @@
 <ul>
     <li th:each="r : ${roles}" th:text="${r.authority}"></li>
 </ul>
+
 
 <div>
     <a th:href="@{/}">Домой</a>
