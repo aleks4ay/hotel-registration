@@ -1,0 +1,75 @@
+{} - обозначают, что значение нужно печатать, а не выбирать
+--> - нажать на кнопку
+
+1. Run keycloak:
+    docker run --name keycloak-hotel-provider -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 18080:8080 quay.io/keycloak/keycloak:23.0.6 start-dev
+
+2. Запустить localhost:18080
+	2.1 Зайти в Админ-консоль, admin/admin
+	2.2 Создать новое пространство (нажать на master --> create realm --> ввести только `Realm name` = hotel-realm-2, например)
+
+3. Realm -> Realm-setting -> Login:
+    Выбрать (Login screen customization):
+    - User registration: On
+    - Forgot password: On (по желанию)
+    - Remember me: Off (ОБЯЗАТЕЛЬНО)
+
+4. Создать клиента. Clients --> Create Client
+	-1 General settings:
+		Client type: OpenID Connect
+		ClientID: {hotel-provider}
+		Name: {hotel-provider}
+		Description: {Client for registration new users for working with `hotel-provider` UI}
+		Always display in UI: Off
+		--> next
+	- 2 Capability config:
+      Client authentication: ON
+      Authorization: OFF
+      Authentication flow: выбрать
+         Standard flow: ON
+         Service accounts roles: ON
+         Direct access grants: ON (для логина)
+		--> next
+	-3 Login settings: - там, где сайт
+	    Valid redirect URIs: {http://localhost:8080/login/oauth2/code/keycloak}
+        Valid post logout redirect URIs: {http://localhost:8080/*}
+        Web origins: {http://localhost:8080}
+		--> Save
+
+5. Создать роль - слева вкладка "Realm roles" --> "Create role":
+    "Role name": {hotel_data_reader}
+    "Description": {Role for remote Services for reading data of hotel-provider Service}
+       	--> Save
+    "Role name": {hotel_data_writer}
+    "Description": {Role for remote Services for reading and changing data of hotel-provider Service}
+        --> Save
+    "Role name": {hotel_provider_admin}
+    "Description": {Role for hotel_provider (Admin)}
+        --> Save
+    "Role name": {hotel_provider}
+    "Description": {Role for remote services for call hotel_provider UI}
+        --> Save
+
+6. Добавить мапинг ролей в токен (чтобы появлялись [hotel_data_reader, hotel_data_writer, hotel_provider, hotel_provider_admin] при claims.get("realm_access")):
+    6.1 Clients -> {hotel-provider} -> Client Scopes -> {hotel-provider-dedicated}  -->
+    Add Mapper -> from predefined mappers: "realm roles" (скорректировать только Add to ID token: On). Итого:
+        - Multivalued: On
+        - Token Claim Name: realm_access.roles
+        - Claim JSON Type: String
+        - Add to ID token: On
+        - Add to access token: On
+        - Add to userinfo: Off
+        - Add to token introspection: On
+
+7. Добавить роль добавляемую при регистрации: Realm settings --> User registration
+    - Assign role
+
+8. Добавить роль для возможности добавления ролей: Clients → hotel-provider → Service account roles
+    - клацнуть по "Assign role"
+    - переключиться с "Filter by realm-role" на "Filter by clients"
+    - выбрать роли:
+        - manage-users (экран 2 в списке)
+        - view-users (экран 3 в списке)
+        - view-realm (для назначения ролей)
+        - query-users (желательно)
+      --> Assign

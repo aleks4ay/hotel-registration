@@ -1,6 +1,16 @@
 server:
   port: 8080
 
+application:
+  new-user-roles:
+    users:  hotel_data_reader, hotel_provider
+    admins: hotel_data_writer, hotel_provider_admin
+  client:
+    realm: hotel-realm-2
+    id: hotel-provider
+    url: http://localhost:18080
+    secret: vgbCeNfWxDino3jlVcF4YSVlI6twNvG5
+
 spring:
   thymeleaf:
     cache: false
@@ -10,9 +20,15 @@ spring:
       client:
         registration:
           keycloak:
-            client-id: hotel_registration_cl
+            client-id: ${application.client.id}
             authorization-grant-type: authorization_code
             scope: openid,profile,email
         provider:
           keycloak:
-            issuer-uri: http://localhost:18080/realms/hotel-realm
+            issuer-uri: ${application.client.url}/realms/${application.client.realm}
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

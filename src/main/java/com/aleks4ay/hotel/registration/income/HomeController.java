@@ -1,7 +1,6 @@
 package com.aleks4ay.hotel.registration.income;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +14,19 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String profile(Model model, @AuthenticationPrincipal OidcUser user) {
-        String userId = user.getSubject();
-        model.addAttribute("username", user.getPreferredUsername());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("roles", user.getAuthorities());
-        model.addAttribute("userId", userId);
+    public String profile(Model model, Authentication authentication) {
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("roles", authentication.getAuthorities());
 
         return "profile";
+    }
+
+    @GetMapping("/not-secured-profile")
+    public String notSecuredProfile(Model model, Authentication authentication) {
+
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("roles", authentication.getAuthorities());
+
+        return "not-secured-profile";
     }
 }
