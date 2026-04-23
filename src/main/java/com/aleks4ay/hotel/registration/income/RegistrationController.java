@@ -22,7 +22,7 @@ public class RegistrationController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return HtmlPage.LOGIN.getPageName();
     }
 
 
@@ -50,6 +50,6 @@ public class RegistrationController {
             return HtmlPage.REGISTER.getPageName();
         }
 
-        return "redirect:/login";
+        return "redirect:/%s".formatted(HtmlPage.LOGIN.getPageName());
     }
 }

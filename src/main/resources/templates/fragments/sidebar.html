@@ -1,0 +1,28 @@
+<div th:fragment="sidebar" class="sidebar" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
+
+   <h4 class="text-center mt-3">Menu</h4>
+
+   <a th:href="@{/login}">Войти</a>
+
+   <a th:href="@{/home}" th:classappend="${currentUri == '/home'} ? 'active'">
+      Home
+   </a>
+
+   <a th:href="@{/dashboard}" th:classappend="${currentUri == '/dashboard'} ? 'active'">
+      Dashboard
+   </a>
+
+   <a th:href="@{/profile}" th:classappend="${currentUri == '/profile'} ? 'active'">
+      Profile
+   </a>
+
+   <a th:href="@{/admin}" sec:authorize="hasRole('hotel_provider_admin')" th:classappend="${currentUri == '/admin'} ? 'active'">
+      Админка
+   </a>
+
+   <form th:action="@{/logout}" method="post" class="p-2">
+      <button class="btn btn-sm btn-light w-100" type="submit">Logout</button>
+   </form>
+
+</div>
