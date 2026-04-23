@@ -1,5 +1,6 @@
 package com.aleks4ay.hotel.registration.config;
 
+import com.aleks4ay.hotel.registration.util.HtmlPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +16,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String LOGIN_PATH = "/login";
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    ClientRegistrationRepository clientRegistrationRepository,
@@ -25,15 +24,17 @@ public class SecurityConfig {
                 .authenticationProvider(keycloakAuthenticationProvider)
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/admin/**").hasRole("hotel_provider_admin")
-                                .requestMatchers("/profile/**").hasRole("hotel_data_writer")
-                                .requestMatchers("/", "/css/**", LOGIN_PATH, "/logout", "/realms/**", "/register", "/adminnn/**").permitAll()
+                                .requestMatchers( HtmlPage.ADMIN.asAllPaths()).hasRole("hotel_provider_admin")
+                                .requestMatchers(HtmlPage.PROFILE.asAllPaths()).hasRole("hotel_data_writer")
+                                .requestMatchers(HtmlPage.DEFAULT.asPath(), HtmlPage.CSS.asAllPaths(), HtmlPage.LOGIN.asPath(),
+                                        HtmlPage.LOGOUT.asPath(), HtmlPage.REALMS.asAllPaths(), HtmlPage.HOME.asPath(),
+                                        HtmlPage.REGISTER.asPath()).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage(LOGIN_PATH)
-                        .loginProcessingUrl(LOGIN_PATH)
-                        .defaultSuccessUrl("/", true)
+                        .loginPage(HtmlPage.LOGIN.asPath())
+                        .loginProcessingUrl(HtmlPage.LOGIN.asPath())
+                        .defaultSuccessUrl(HtmlPage.DEFAULT.asPath(), true)
                         .permitAll()
                 )
                 .logout(logout -> logout

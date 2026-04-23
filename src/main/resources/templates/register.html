@@ -3,62 +3,49 @@
 <head>
    <title>Регистрация</title>
    <meta charset="UTF-8"/>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+   <form th:action="@{/register}" th:object="${registerDto}" method="post" class="bg-white p-6 rounded-lg shadow-md w-80">
    <h2>Регистрация</h2>
-
-   <form th:action="@{/register}" th:object="${registerDto}" method="post">
-
-      <div>
-         <label for="username">Login:</label>
-         <input type="text" th:field="*{username}" id="username"/>
+         <input type="text" th:field="*{username}" id="username" placeholder="Username" class="w-full mb-3 p-2 border rounded"/>
          <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-      </div>
 
-      <div>
-         <label for="firstName">First name:</label>
-         <input type="text" th:field="*{firstName}" id="firstName"/>
+         <input type="text" th:field="*{firstName}" id="firstName" placeholder="First name" class="w-full mb-3 p-2 border rounded"/>
          <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
-      </div>
 
-      <div>
-         <label for="lastName">Last name:</label>
-         <input type="text" th:field="*{lastName}" id="lastName"/>
+         <input type="text" th:field="*{lastName}" placeholder="Last name" class="w-full mb-3 p-2 border rounded"/>
          <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-      </div>
 
-      <div>
-         <label for="email">Email:</label>
-         <input type="email" th:field="*{email}" id="email"/>
+         <input type="email" th:field="*{email}" id="email" placeholder="Email" class="w-full mb-3 p-2 border rounded"/>
          <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-      </div>
 
-      <div>
-         <label for="password">Пароль:</label>
-         <input type="password" th:field="*{password}" id="password"/>
+         <input type="password" th:field="*{password}" id="password" placeholder="Password" class="w-full mb-3 p-2 border rounded"/>
          <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-      </div>
 
-      <div>
-         <label for="confirmPassword">Подтвердите пароль:</label>
-         <input type="password" th:field="*{confirmPassword}" id="confirmPassword"/>
+         <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="ConfirmPassword" class="w-full mb-3 p-2 border rounded"/>
          <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
-      </div>
 
       <div th:if="${registrationError}">
          <p th:text="${registrationError}" style="color:red;"></p>
       </div>
 
-      <button type="submit">Зарегистрироваться</button>
-   </form>
+      <button class="w-full bg-blue-500 text-white p-2 rounded" type="submit">Зарегистрироваться</button>
 
-   <p>
-      Уже есть аккаунт?
-      <a th:href="@{/oauth2/authorization/keycloak}">
-         Войти
-      </a>
-   </p>
+      <br/><br/>
+
+      <p class="text-sm text-center">
+         Есть аккаунт?
+         <a th:href="@{/login}" class="text-blue-500 hover:underline">
+            Войти
+         </a>
+      </p>
+
+   </form>
+</div>
 
 </body>
 </html>

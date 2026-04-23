@@ -9,7 +9,7 @@ application:
     realm: hotel-realm-2
     id: hotel-provider
     url: http://localhost:18080
-    secret: vgbCeNfWxDino3jlVcF4YSVlI6twNvG5
+    secret: V2qlyKNBHZKWG7oMWtR7hNgKPtUCKH90
 
 spring:
   thymeleaf:

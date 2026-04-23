@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head><title>Профиль</title></head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout" lang="en">
+
+<head>
+   <title>Profile</title>
+</head>
+
 <body>
 
-<h2>Профиль</h2>
-
-<p>Логин: <span th:text="${username}"></span></p>
-<p>Email: <span th:text="${email}"></span></p>
-<p>userId: <span th:text="${userId}"></span></p>
-<p>Роли:</p>
-<ul>
-    <li th:each="r : ${roles}" th:text="${r.authority}"></li>
-</ul>
-
-<div>
-    <a th:href="@{/}">Домой</a>
+<div layout:fragment="content">
+   <h2>Profile</h2>
+   <p>Страница профиля</p>
+   <p>Логин: <span th:text="${username}"></span></p>
+   <p>Роли:</p>
+   <ul>
+      <li th:each="r : ${roles}" th:text="${r.authority}"></li>
+   </ul>
 </div>
-
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Выйти</button>
-</form>
 
 </body>
 </html>

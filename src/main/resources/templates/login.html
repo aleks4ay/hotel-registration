@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-   <title>Регистрация</title>
+   <title>Вход</title>
    <meta charset="UTF-8"/>
+   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
-<h2>Регистрация</h2>
-<form th:action="@{/login}" method="post">
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+   <form class="bg-white p-6 rounded-lg shadow-md w-80" th:action="@{/login}" method="post">
+      <h2 class="text-xl mb-4 text-center">Login</h2>
 
-   <label for="Username">Login:</label>
-   <input type="text" name="username" placeholder="Username" id="Username"/>
+      <input type="text" name="username" placeholder="Username" class="w-full mb-3 p-2 border rounded"/>
 
-   <label for="Password">Password:</label>
-   <input type="password" name="password" placeholder="Password" id="Password"/>
-   <button type="submit">Login</button>
-</form>
+      <input type="password" name="password" placeholder="Password" class="w-full mb-4 p-2 border rounded"/>
+
+      <button class="w-full bg-blue-500 text-white p-2 rounded" type="submit">Login</button>
+
+      <br/><br/>
+
+      <p class="text-sm text-center">
+         Нет аккаунта?
+         <a th:href="@{/register}" class="text-blue-500 hover:underline">
+            Зарегистрироваться
+         </a>
+      </p>
+   </form>
+</div>
 
 </body>
 </html>
